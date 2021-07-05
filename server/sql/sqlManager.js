@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config()
+const dotenv = require('dotenv').config();
 const Sequelize = require('sequelize');
 
 class SQLManager {
@@ -62,26 +62,26 @@ class SQLManager {
     }
 
     async getRestaurants(page) {
-        let offset = (page-1)*3
-        let data = []
-        const result = await this.sequelize.query(`SELECT * FROM restaurant LIMIT 3 OFFSET ${offset};`)
-        const totalRows = await this.sequelize.query(`SELECT COUNT (*) FROM restaurant`)
-        data.push(result[0], totalRows[0])
+        let offset = (page-1)*3;
+        let data = [];
+        const result = await this.sequelize.query(`SELECT * FROM restaurant LIMIT 3 OFFSET ${offset};`);
+        const totalRows = await this.sequelize.query(`SELECT COUNT (*) FROM restaurant`);
+        data.push(result[0], totalRows[0]);
         if (data){
-                return data
+                return data;
         }
-        else "Something went wrong!"
+        else "Something went wrong!";
     }
     
     async getRestaurantsWithMenu(page){
-        let offset = (page-1)*3
-        let data = []
-        const result = await this.sequelize.query(`SELECT * FROM restaurant WHERE restaurant.menu_id =1 LIMIT 3 OFFSET ${offset} ;`)
-        const totalRows = await this.sequelize.query(`SELECT COUNT (*) FROM restaurant WHERE restaurant.menu_id =1`)
-        data.push(result[0], totalRows[0])
+        let offset = (page-1)*3;
+        let data = [];
+        const result = await this.sequelize.query(`SELECT * FROM restaurant WHERE restaurant.menu_id =1 LIMIT 3 OFFSET ${offset} ;`);
+        const totalRows = await this.sequelize.query(`SELECT COUNT (*) FROM restaurant WHERE restaurant.menu_id =1`);
+        data.push(result[0], totalRows[0]);
         if (data)
             return data
-        else "Something went wrong!"
+        else "Something went wrong!";
 
     }
 
@@ -89,10 +89,10 @@ class SQLManager {
         const result = await this.sequelize.query(`
             SELECT i.item_id, i.item_name, i.price_string
             FROM  menu AS m, item AS i
-            WHERE m.res_id = ${resId} AND i.menu_id = m.menu_id;`)
+            WHERE m.res_id = ${resId} AND i.menu_id = m.menu_id;`);
 
         const menuName = await this.sequelize.query(`
-        SELECT menu.menu_name, menu.menu_id FROM menu WHERE menu.res_id = ${resId};`)
+        SELECT menu.menu_name, menu.menu_id FROM menu WHERE menu.res_id = ${resId};`);
         if (result && menuName[0][0]) {
             console.log(menuName[0][0]);
             console.log(menuName[0][0] ? 'true' : 'false');
@@ -100,11 +100,10 @@ class SQLManager {
                 menuName: menuName[0][0].menu_name,
                 menuId: menuName[0][0].menu_id,
                 items: result[0]
-            }
-            return data
+            };
+            return data;
         }
-
-        else return  "Restaurant doesn't exist"
+        else return  "Restaurant doesn't exist";
     }
 
     async updateItem(colName, value, itemId) {
@@ -112,10 +111,10 @@ class SQLManager {
             UPDATE item
             SET ${colName} = '${value}'
             WHERE item.item_id = ${itemId};
-        `)
+        `);
         if (result)
             return "Item has been updated successfully!"
-        else "Sorry something went wrong, try again later!"
+        else "Sorry something went wrong, try again later!";
     }
 
 
@@ -124,10 +123,10 @@ class SQLManager {
         UPDATE menu
         SET ${colName} = '${value}'
         WHERE menu.menu_id = ${menuId};
-        `)
+        `);
         if (result)
             return "Item has been updated successfully!"
-        else "Sorry something went wrong, try again later!"
+        else "Sorry something went wrong, try again later!";
     }
 
 }
